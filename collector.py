@@ -2,55 +2,67 @@ import json
 from zvmconnector.connector import ZVMConnector
 
 # collect the infomation from sdk server
-class ZVMCollector():
-    def __init__(self, ip_addr: str=None, port: int=None, timeout: int=3600, \
-                 connection_type: str=None, ssl_enabled: bool=False, verify: bool=False, \
+class ZVMCollector(ZVMConnector):
+    def __init__(self, ip_addr: str=None, port: int=None, timeout: int=3600,
+                 connection_type: str=None, ssl_enabled: bool=False, verify: bool=False,
                  token_path: bool=None):
-        # Init ZVMConnector here
+        super().__init__(ip_addr=ip_addr, port=port, timeout=timeout,
+                        connection_type=connection_type, ssl_enabled=ssl_enabled,
+                        verify=verify, token_path=token_path)
         pass
 
     # Version
-    def collect_api_version(self):
+    def collect_api_version(self) -> dict:
         # GET /
-        pass
+        res = self.send_request('version')
+        return res['output']
+
 
     # Host
-    def collect_host_info(self):
+    def collect_host_info(self) -> dict:
         # GET /host
-        pass
+        res = self.send_request('host_get_info')
+        return res['output']
 
-    def collect_host_disk_info(self):
+    def collect_host_disk_info(self) -> dict:
         # GET /host/diskpool
-        pass
+        res = self.send_request('host_diskpool_get_info')
+        return res['output']
+
 
     # Image
-    def collect_image_list(self):
+    def collect_image_list(self) -> dict:
         # GET /images
-        pass
+        res = self.send_request('image_query')
+        return res['output']
 
     # Guest
-    def collect_guest_list(self):
+    def collect_guest_list(self) -> dict:
         # GET /guests
-        pass
+        res = self.send_request('guest_list')
+        return res['output']
 
-    def collect_guest_definition_info(self):
-        pass
+    # def collect_guest_definition_info(self) -> dict:
+    #     pass
 
-    def collect_guests_stats(self):
+
+    def collect_guest_stats(self, userids) -> dict:
         # GET /guests/stats
-        pass
+        res = self.send_request('guest_inspect_stats', userids)
+        return res['output']
 
-    def collect_guest_info(self):
+    def collect_guest_info(self, userid: str) -> dict:
         # GET /guests/{userid}/info
-        pass
+        res = self.send_request('guest_get_info', (userid))
+        return res['output']
 
     # VSwitch
-    def collect_vswitch_list(self):
+    def collect_vswitch_list(self) -> dict:
         # GET /vswitches
-        pass
+        res = self.send_request('vswitch_get_list')
+        return res['output']
 
-    def collect_vswitch_info(self):
+    def collect_vswitch_info(self, name: str) -> dict:
         # GET /vswitches/{name}
-        pass
-
-
+        res = self.send_request('host_get_info', (name))
+        return res['output']
