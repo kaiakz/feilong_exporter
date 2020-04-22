@@ -1,5 +1,6 @@
 import json
 from zvmconnector.connector import ZVMConnector
+from prometheus_client.core import GaugeMetricFamily
 
 # collect the infomation from sdk server
 class ZVMCollector(ZVMConnector):
@@ -12,6 +13,7 @@ class ZVMCollector(ZVMConnector):
         pass
 
     def collect(self):
+
         pass
 
     # Version
@@ -26,6 +28,7 @@ class ZVMCollector(ZVMConnector):
         }
         """
         res = self.send_request('version')
+
         return res['output']
 
 
@@ -66,7 +69,14 @@ class ZVMCollector(ZVMConnector):
         },
         """
         res = self.send_request('host_diskpool_get_info')
-        return res['output']
+        metric = {}
+        metric['disk_available'] = GaugeMetricFamily('disk_available', 'The total available size of the disks in the pool in Gigabytes(G).', labels=['host'])
+        metric['disk_total'] = GaugeMetricFamily('disk_total', 'The total size of the pool in Gigabytes (G).', labels=['host'])
+        metric['disk_used'] = GaugeMetricFamily('disk_used', ' 	The size of used disks in the pool in Gigabytes(G).', labels=['host'])
+        data = res['output']
+        for i in metric.keys():
+            metric[i].add_metric(["OPNSTK2"], data[i])
+        return metric
 
 
     # Image
@@ -85,7 +95,7 @@ class ZVMCollector(ZVMConnector):
         return res['output']
 
     # Guest
-    def collect_guest_list(self) -> dict:
+    def collect_guests_list(self) -> dict:
         """
         GET /guests
         "output": ["v1", "v2"]
@@ -97,7 +107,7 @@ class ZVMCollector(ZVMConnector):
     #     pass
 
 
-    def collect_guest_stats(self, userids) -> dict:
+    def collect_guests_stats(self, userids) -> dict:
         """
         GET /guests/stats
         output dict cpu and memory statics of guest
@@ -105,7 +115,7 @@ class ZVMCollector(ZVMConnector):
         res = self.send_request('guest_inspect_stats', userids)
         return res['output']
 
-    def collect_guest_vnics(self, userids):
+    def collect_guests_interfacestats(self, userids:tuple):
         """
         GET /guests/interfacestats
         output dict vNICs statistics of one guest.
@@ -125,7 +135,18 @@ class ZVMCollector(ZVMConnector):
         }
         """
         res = self.send_request('guest_get_info', (userid))
-        return res['output']
+        metric = {}
+        metric['max_mem_kb'] = GaugeMetricFamily('max_mem_kb', 'The maximum memory in KBytes can be allocated for this guest.', labels=['host', 'guest'])
+        metric['num_cpu'] = GaugeMetricFamily('num_cpu', 'The count of virtual CPUs for the guest.', labels=['host', 'guest'])
+        metric['cpu_time_us'] = GaugeMetricFamily('cpu_time_us', 'The CPU time used in microseconds.', labels=['host', 'guest'])
+        metric['power_state'] = GaugeMetricFamily('power_state', 'Power status of guest, can be either on or off.', labels=['host', 'guest'])
+        metric['mem_kb'] = GaugeMetricFamily('mem_kb', 'Meemory size used by the guest, in KBytes.', labels=['host', 'guest'])
+
+        data = res['output']
+        for i in metric.keys():
+            metric[i].add_metric(["OPNSTK2", userid], data[i])
+        return metric
+
 
     # VSwitch
     def collect_vswitch_list(self) -> dict:
