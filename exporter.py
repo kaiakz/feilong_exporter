@@ -1,8 +1,10 @@
 import json
-from prometheus_client.core import GaugeMetricFamily
+from prometheus_client import start_http_server
+from prometheus_client.core import REGISTRY
 
-# build the metric and export them to Prometheus
-class ZVMExporter():
-    def __init__(self):
-        pass
+from collector import ZVMCollector
 
+# Export them to Prometheus
+if __name__ == "__main__":
+    REGISTRY.register(ZVMCollector())   # TODO
+    start_http_server(8009)
