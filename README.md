@@ -2,6 +2,8 @@
 A z/VM Prometheus exporter based on Feilong.
 
 # Metrics
+## Version(zvm_sdk)
+* zvm_sdk_version: `zvm_sdk_version{api_version="1.0.",max_version="1.0",min_version="1.0",version="1.0.0"} 1.0`
 ## Host
 * memory_mb
 * memory_mb_used

@@ -10,11 +10,12 @@ class ZVMCollector(ZVMConnector):
         super().__init__(ip_addr=ip_addr, port=port, timeout=timeout,
                         connection_type=connection_type, ssl_enabled=ssl_enabled,
                         verify=verify, token_path=token_path)
-        pass
 
     def collect(self):
-
-        pass
+        version_metric = self.collect_api_version()
+        for i in version_metric.values():
+            yield i
+        # yield self.collect_host_info()
 
     # Version
     def collect_api_version(self) -> dict:
@@ -30,8 +31,9 @@ class ZVMCollector(ZVMConnector):
         res = self.send_request('version')
         metric = {}
         data = res['output']
-        metric['zvm_sdk_version'] = GaugeMetricFamily('zvm_sdk_version', '', labels=data.keys()).add_metric(data.values(), 1)
-        return res['output']
+        metric['zvm_sdk_version'] = GaugeMetricFamily('zvm_sdk_version', '', labels=list(data.keys()))
+        metric['zvm_sdk_version'].add_metric(list(data.values()), int(1))
+        return metric
 
 
     # Host
@@ -74,7 +76,8 @@ class ZVMCollector(ZVMConnector):
         labels_value = []
         for i in labels:
             labels_value.append(data[i])
-        metric['other_info'] = GaugeMetricFamily('other_info', '', labels=labels).add_metric(labels_value, 1)
+        metric['other_info'] = GaugeMetricFamily('other_info', '', labels=labels)
+        metric['other_info'].add_metric(labels_value, 1)
         return metric
 
 

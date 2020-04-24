@@ -8,3 +8,5 @@ from collector import ZVMCollector
 if __name__ == "__main__":
     REGISTRY.register(ZVMCollector())   # TODO
     start_http_server(8009)
+    while True:
+        pass
