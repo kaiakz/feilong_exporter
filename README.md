@@ -19,6 +19,13 @@ A z/VM Prometheus exporter based on Feilong.
 * power_state
 * mem_kb
 
+# Develop
+1. `virtualenv venv`
+2. `source venv/bin/activate`
+3. `pip install zVMCloudConnector`
+4. `pip install prometheus_client`
+5. `pip install flask`
+
 # Architeture
 
 # References
@@ -27,4 +34,5 @@ A z/VM Prometheus exporter based on Feilong.
 The zvm exporter uses these libraries:
 * Feilong/zvmconnector client
 * Prometheus client_python
+* Flask
 
