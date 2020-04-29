@@ -3,27 +3,34 @@ import os, json
 
 app = Flask(__name__)
 
-
-def build_filepath(name:str) -> str:
+def build_filepath(fileName:str) -> str:
     templates_path = "./resource/api_templates/test_{}.tpl"
-    return templates_path.format(name)
+    return templates_path.format(fileName)
+
+def build_response(name: str) -> Response:
+    templates_path = "./resource/api_templates/test_{}.tpl"
+    with open(templates_path.format(name)) as f:
+        return Response(f.read(), mimetype='application/json')
 
 @app.route('/', methods=['GET'])
 def version():
-    with open(build_filepath('version')) as f:
-        return Response(f.read(), mimetype='application/json')
+    return build_response('version')
 
 @app.route('/host', methods=['GET'])
 def host_info():
-    with open(build_filepath('host_info')) as f:
-        return Response(f.read(), mimetype='application/json')
+    return build_response('host_info')
+
+@app.route('/host/diskpool', methods=['GET'])
+def host_disk_info():
+    return build_response('host_disk_info')
 
 @app.route('/guests', methods=['GET'])
 def guests_list():
-    with open(build_filepath('guests_list')) as f:
-        return Response(f.read(), mimetype='application/json')    
+    return build_response('guests_list')  
 
-
+@app.route('/images', methods=['GET'])
+def images_list():
+    return build_response('image_query')
 
 
 app.run()
