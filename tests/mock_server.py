@@ -32,5 +32,15 @@ def guests_list():
 def images_list():
     return build_response('image_query')
 
+@app.route('/vswitches', methods=['GET'])
+def vswitches_list():
+    return build_response('vswitch_get')
+
+
+@app.route('/vswitches/<name>', methods=['GET'])
+def vswitch_query(name):
+    return build_response('vswitch_query')
+
+
 
 app.run()
