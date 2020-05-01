@@ -12,6 +12,10 @@ def build_response(name: str) -> Response:
     with open(templates_path.format(name)) as f:
         return Response(f.read(), mimetype='application/json')
 
+@app.route('/token', methods=['GET'])
+def token():
+    pass
+
 @app.route('/', methods=['GET'])
 def version():
     return build_response('version')
@@ -28,6 +32,10 @@ def host_disk_info():
 def guests_list():
     return build_response('guests_list')  
 
+@app.route('/guests/<userid>/info', methods=['GET'])
+def guest_info(userid):
+    return build_response('guest_get_info')  
+
 @app.route('/images', methods=['GET'])
 def images_list():
     return build_response('image_query')
@@ -40,7 +48,6 @@ def vswitches_list():
 @app.route('/vswitches/<name>', methods=['GET'])
 def vswitch_query(name):
     return build_response('vswitch_query')
-
 
 
 app.run()
