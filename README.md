@@ -19,7 +19,7 @@ A z/VM Prometheus exporter based on Feilong.
 * power_state
 * mem_kb
 
-# Develop
+# For Developer
 1. `virtualenv venv`
 2. `source venv/bin/activate`
 3. `pip install zVMCloudConnector`

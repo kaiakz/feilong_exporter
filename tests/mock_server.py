@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, request, make_response
 import os, json
 
 app = Flask(__name__)
@@ -12,9 +12,12 @@ def build_response(name: str) -> Response:
     with open(templates_path.format(name)) as f:
         return Response(f.read(), mimetype='application/json')
 
-@app.route('/token', methods=['GET'])
+@app.route('/token', methods=['POST'])
 def token():
-    pass
+    # request.header.get('X-Admin-Token')
+    response = make_response()
+    response.headers['X-Auth-Token'] = 'ThisIsFakeToken'
+    return response
 
 @app.route('/', methods=['GET'])
 def version():
