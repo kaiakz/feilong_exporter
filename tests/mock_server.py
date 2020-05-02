@@ -1,4 +1,4 @@
-from flask import Flask, Response, request, make_response
+from flask import Flask, Response, request, make_response, jsonify
 import os, json
 
 app = Flask(__name__)
@@ -50,7 +50,10 @@ def vswitches_list():
 
 @app.route('/vswitches/<name>', methods=['GET'])
 def vswitch_query(name):
-    return build_response('vswitch_query')
+    with open(build_filepath('vswitch_query')) as f:
+        info = json.load(f)
+        info['output']['switch_name'] = name
+        return jsonify(info)
 
 
 app.run()
