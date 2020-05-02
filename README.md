@@ -25,6 +25,9 @@ A z/VM Prometheus exporter based on Feilong.
 3. `pip install zVMCloudConnector`
 4. `pip install prometheus_client`
 5. `pip install flask`
+## Run zvm-sdk mocking server
+1. `source venv/bin/activate`
+2. `python ./tests/mock_server.py`
 
 # Architeture
 

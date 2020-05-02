@@ -3,14 +3,20 @@ import os, json
 
 app = Flask(__name__)
 
+# Build the path for file that is requested
 def build_filepath(fileName:str) -> str:
     templates_path = "./resource/api_templates/test_{}.tpl"
     return templates_path.format(fileName)
 
+# Build a simple reponse by the template file
 def build_response(name: str) -> Response:
     templates_path = "./resource/api_templates/test_{}.tpl"
     with open(templates_path.format(name)) as f:
         return Response(f.read(), mimetype='application/json')
+
+# zvm-sdk's REST API mocking
+# https://cloudlib4zvm.readthedocs.io/en/latest/restapi.html
+
 
 @app.route('/token', methods=['POST'])
 def token():
@@ -52,7 +58,7 @@ def vswitches_list():
 def vswitch_query(name):
     with open(build_filepath('vswitch_query')) as f:
         info = json.load(f)
-        info['output']['switch_name'] = name
+        info['output']['switch_name'] = name    # Set switch_name to the parameter called name
         return jsonify(info)
 
 
