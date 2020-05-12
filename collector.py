@@ -12,10 +12,12 @@ class ZVMCollector(ZVMConnector):
                         verify=verify, token_path=token_path)
 
     def collect(self):
-        version_metric = self.collect_api_version()
-        for i in version_metric.values():
+        version_metrics = self.collect_api_version()
+        for i in version_metrics.values():
             yield i
-        # yield self.collect_host_info()
+        host_disk_metrics = self.collect_host_disk_info()
+        for i in host_disk_metrics.values():
+            yield i
 
     # Version
     def collect_api_version(self) -> dict:
@@ -92,9 +94,9 @@ class ZVMCollector(ZVMConnector):
         """
         res = self.send_request('host_diskpool_get_info')
         metric = {}
-        metric['disk_available'] = GaugeMetricFamily('disk_available', 'The total available size of the disks in the pool in Gigabytes(G).', labels=['host'])
-        metric['disk_total'] = GaugeMetricFamily('disk_total', 'The total size of the pool in Gigabytes (G).', labels=['host'])
-        metric['disk_used'] = GaugeMetricFamily('disk_used', ' 	The size of used disks in the pool in Gigabytes(G).', labels=['host'])
+        metric['disk_available'] = GaugeMetricFamily('zvm_host_disk_available', 'The total available size of the disks in the pool in Gigabytes(G).', labels=['host'])
+        metric['disk_total'] = GaugeMetricFamily('zvm_host_disk_total', 'The total size of the pool in Gigabytes (G).', labels=['host'])
+        metric['disk_used'] = GaugeMetricFamily('zvm_host_disk_used', 'The size of used disks in the pool in Gigabytes(G).', labels=['host'])
         data = res['output']
         for i in metric.keys():
             metric[i].add_metric(["OPNSTK2"], data[i])
