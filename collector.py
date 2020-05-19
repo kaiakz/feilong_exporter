@@ -15,8 +15,14 @@ class ZVMCollector(ZVMConnector):
         version_metrics = self.collect_api_version()
         for i in version_metrics.values():
             yield i
-        host_disk_metrics = self.collect_host_disk_info()
-        for i in host_disk_metrics.values():
+
+        # Since host_metric also includes the disk info
+        # host_disk_metrics = self.collect_host_disk_info()
+        # for i in host_disk_metrics.values():
+        #     yield i
+
+        host_metrics = self.collect_host_info()
+        for i in host_metrics.values():
             yield i
 
     # Version
@@ -32,7 +38,9 @@ class ZVMCollector(ZVMConnector):
         """
         res = self.send_request('version')
         metric = {}
+        
         data = res['output']
+        
         metric['zvm_sdk_version'] = GaugeMetricFamily('zvm_sdk_version', '', labels=list(data.keys()))
         metric['zvm_sdk_version'].add_metric(list(data.values()), int(1))
         return metric
@@ -62,24 +70,30 @@ class ZVMCollector(ZVMConnector):
             "memory_mb_used": 0.0
         }
         """
+
         res = self.send_request('host_get_info')
         metric = {}
-        metric['vcpus'] = GaugeMetricFamily('vcpus', '', labels=['host'])
-        metric['vcpus_used'] = GaugeMetricFamily('vcpus_used', '', labels=['host'])
-        metric['memory_mb'] = GaugeMetricFamily('memory_mb', '', labels=['host'])
-        metric['memory_mb_used'] = GaugeMetricFamily('memory_mb_used', '', labels=['host'])
+        metric['vcpus'] = GaugeMetricFamily('vcpus', 'The virtual CPUs', labels=['host'])
+        metric['vcpus_used'] = GaugeMetricFamily('vcpus_used', 'The used vcpus', labels=['host'])
+        metric['memory_mb'] = GaugeMetricFamily('memory_mb', 'The total available size of the memory in MB.', labels=['host'])
+        metric['memory_mb_used'] = GaugeMetricFamily('memory_mb_used', 'The size of used memory in MB.', labels=['host'])
         metric['disk_available'] = GaugeMetricFamily('disk_available', 'The total available size of the disks in the pool in Gigabytes(G).', labels=['host'])
         metric['disk_total'] = GaugeMetricFamily('disk_total', 'The total size of the pool in Gigabytes (G).', labels=['host'])
         metric['disk_used'] = GaugeMetricFamily('disk_used', 'The size of used disks in the pool in Gigabytes(G).', labels=['host'])
+        
         data = res['output']
+
         for i in metric.keys():
             metric[i].add_metric(["OPNSTK2"], data[i])
-        labels = ['zvm_host', 'hypervisor_hostname', 'hypervisor_version', 'hypervisor_type', 'zcc_userid', 'ipl_time'] # TODO:deal with cpu_info 
-        labels_value = []
-        for i in labels:
-            labels_value.append(data[i])
-        metric['other_info'] = GaugeMetricFamily('other_info', '', labels=labels)
-        metric['other_info'].add_metric(labels_value, 1)
+        
+        # labels = ['zvm_host', 'hypervisor_hostname', 'hypervisor_version', 'hypervisor_type', 'zcc_userid', 'ipl_time'] # TODO:deal with cpu_info 
+        # labels_value = []
+        # for i in labels:
+        #     print(i)
+        #     labels_value.append(data[i])
+        
+        # metric['other_info'] = GaugeMetricFamily('other_info', '', labels=labels)
+        # metric['other_info'].add_metric(labels_value, 1)
         return metric
 
 
