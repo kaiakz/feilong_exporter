@@ -22,9 +22,10 @@ a better understanding of the problems you encountered during the developmemnt o
 - Chen ji - IBM - Mentor
 - Kai Wong - Beijing Institute of Technology, Zhuhai Campus - Mentee
 
+
 ## Simple Timeline
 | | |
-|---------|--------|---------|
+|:-|:-|
 | March 31st, 2020 - May 15st, 2020 | Begin research in the project area to be ready to start the mentorship, write the project plan |
 | May 16st, 2020 | Start the develpoment, and submitt the plan to the mentorship program administrator  |
 | July 20st, 2020 | Test  |
