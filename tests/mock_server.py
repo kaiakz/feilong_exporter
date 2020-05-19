@@ -62,4 +62,5 @@ def vswitch_query(name):
         return jsonify(info)
 
 
+# The mock server runs on port 8909
 app.run(port=8909)
