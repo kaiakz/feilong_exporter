@@ -13,6 +13,7 @@ The zvm exporter uses these libraries:
 5. `pip install flask`
 6. `python exporter.py` or `./venv/bin/python3.8 ./exporter.py`
 
+**TEST ONLY** If you don't have a zvm-sdk server, use the mock server instead. 
 ## Run zvm-sdk mocking server
 1. `source venv/bin/activate`
 2. `python ./tests/mock_server.py`

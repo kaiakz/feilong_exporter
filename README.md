@@ -12,7 +12,7 @@ a better understanding of the problems you encountered during the developmemnt o
 | Status Reports | Project management documentation - weekly reports, milestones, etc. |
 | scr | Source code - create as many subdirectories as needed |
 
-## [Guide](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/guide.md)
+## [Installation](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/installation.md)
 
 ## [Architeture](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/architeture.md)
 
