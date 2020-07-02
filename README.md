@@ -10,13 +10,13 @@ a better understanding of the problems you encountered during the developmemnt o
 | Documentation |  all documentation the project team has created to describe the architecture, design, installation and configuratin of the peoject |
 | Notes and Research | Relavent information useful to understand the tools and techniques used in the project |
 | Status Reports | Project management documentation - weekly reports, milestones, etc. |
-| scr | Source code - create as many subdirectories as needed |
+| src | Source code - create as many subdirectories as needed |
 
-## [Installation](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/installation.md)
+### [Installation](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/installation.md)
 
-## [Architeture](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/architeture.md)
+### [Architeture](https://github.com/kaiakz/feilong_exporter/blob/master/Documentation/architeture.md)
 
-## [Reference](https://github.com/kaiakz/feilong_exporter/blob/master/Notes&Research/reference.md)
+### [Reference](https://github.com/kaiakz/feilong_exporter/blob/master/Notes&Research/reference.md)
 
 ## Project Team
 - Chen ji - IBM - Mentor
@@ -34,7 +34,7 @@ a better understanding of the problems you encountered during the developmemnt o
 
 
 ## Deliverables:
-- [ ] Project Plan
+- [x] Project Plan
 - [ ] 1st Stipend Released
 - [ ] Statement of Work
 - [ ] Architecure/High Level Design
