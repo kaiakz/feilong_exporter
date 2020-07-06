@@ -9,7 +9,7 @@ mock_server_port = 8909
 
 
 # Export them to Prometheus
-if __name__ == "__main__":
+def start_exporter(port, token_path='tests/faketoken.txt'):
     REGISTRY.register(ZVMCollector(port=mock_server_port, token_path=fake_token_path))     # TODO
     start_http_server(8009)
     while True:
