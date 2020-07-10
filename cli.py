@@ -1,5 +1,4 @@
 import argparse
-from urllib.parse import urlparse
 from exporter import start_exporter
 
 def main():
@@ -29,13 +28,15 @@ def main():
         default=3600)
     argparser.add_argument(
         "--token",
-        help="Admin Token to authorize.",
+        help="Path to admin token",
         action="store",
         required=True)
 
     args = argparser.parse_args()
-    url = urlparse(args.server)
-    start_exporter(port=url.port)
+    ip, port = args.server.split(':')
+    if ip == None:
+        print("Error server address")
+    start_exporter(ip_addr=ip, port=int(port))
 
     
 # Export them to Prometheus

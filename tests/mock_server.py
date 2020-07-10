@@ -1,5 +1,6 @@
 from flask import Flask, Response, request, make_response, jsonify
 import os, json
+import logging
 
 app = Flask(__name__)
 
@@ -61,6 +62,8 @@ def vswitch_query(name):
         info['output']['switch_name'] = name    # Set switch_name to the parameter called name
         return jsonify(info)
 
-
-# The mock server runs on port 8909
-app.run(port=8909)
+try:
+    # The mock server runs on port 8909
+    app.run(port=8909)
+except FileNotFoundError as e:
+    logging.error("Can't serve fake data:", e)
