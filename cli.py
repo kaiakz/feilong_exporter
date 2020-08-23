@@ -1,5 +1,6 @@
 import argparse
 from exporter import start_exporter
+import configparser
 
 def main():
     argparser = argparse.ArgumentParser(
@@ -38,6 +39,11 @@ def main():
         print("Error server address")
     start_exporter(ip_addr=ip, port=int(port))
 
+def load_servers(filename:str) -> dict:
+    config = configparser.ConfigParser()
+    config.read(filename, encoding='utf-8')
+    servers = config.sections()
+    
     
 # Export them to Prometheus
 if __name__ == "__main__":

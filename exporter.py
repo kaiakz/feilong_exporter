@@ -19,6 +19,6 @@ def start_exporter(prometheus_port: int=8009, ip_addr: str=None, port: int=None,
                             verify=verify, token_path=token_path))     # TODO
         start_http_server(prometheus_port)
         while True:
-            pass        
+            sleep(1)      
     except AttributeError as e:
         logging.error("Exporter Error:", e)
